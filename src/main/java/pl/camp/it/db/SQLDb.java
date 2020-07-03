@@ -26,7 +26,7 @@ public class SQLDb {
         return null;
     }
 
-    public static void saveProduct(String name, int amount, int barcode, String category) {
+    public static void saveProduct(String name, int amount, long barcode, String category) {
         try {
             String sql = "INSERT INTO tproduct (name, amount, barcode, category) VALUES (?, ?, ?, ?)";
 
@@ -34,7 +34,7 @@ public class SQLDb {
 
             preparedStatement.setString(1, name);
             preparedStatement.setInt(2, amount);
-            preparedStatement.setInt(3, barcode);
+            preparedStatement.setLong(3, barcode);
             preparedStatement.setString(4, category);
 
             preparedStatement.executeUpdate();
@@ -55,7 +55,7 @@ public class SQLDb {
                 Integer id = wyniki.getInt("id");
                 String name = wyniki.getString("name");
                 Integer amount = wyniki.getInt("amount");
-                Integer barcode = wyniki.getInt("barcode");
+                Long barcode = wyniki.getLong("barcode");
                 String category = wyniki.getString("category");
 
                 resultList.add(new Product(id, name, amount, barcode, category));
@@ -121,7 +121,7 @@ public class SQLDb {
                 Integer id = wyniki.getInt("id");
                 String name = wyniki.getString("name");
                 Integer amount = wyniki.getInt("amount");
-                Integer barcode = wyniki.getInt("barcode");
+                Long barcode = wyniki.getLong("barcode");
                 String category = wyniki.getString("category");
 
                 resultList.add(new Product(id, name, amount, barcode, category));

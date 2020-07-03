@@ -4,10 +4,10 @@ public class Product {
     private int id;
     private String name;
     private int amount;
-    private int barcode;
+    private long barcode;
     private String category;
 
-    public Product(int id, String name, int amount, int barcode, String category) {
+    public Product(int id, String name, int amount, long barcode, String category) {
         this.id = id;
         this.name = name;
         this.amount = amount;
@@ -39,11 +39,11 @@ public class Product {
         this.amount = amount;
     }
 
-    public int getBarcode() {
+    public long getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(int barcode) {
+    public void setBarcode(long barcode) {
         this.barcode = barcode;
     }
 

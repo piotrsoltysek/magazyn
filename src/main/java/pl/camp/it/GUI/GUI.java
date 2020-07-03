@@ -23,7 +23,7 @@ public class GUI {
         System.out.println("5. Dodaj kategorię");
         System.out.println("6. Usuń kategorię");
         System.out.println("7. Exit");
-        System.out.print("Podaj cyfrę:");
+        System.out.print("Podaj cyfrę: ");
 
         String choose = scanner.nextLine();
 
@@ -76,7 +76,7 @@ public class GUI {
         System.out.println("Wpisz ilość:");
         int amount = Integer.parseInt(scanner.nextLine());
         System.out.println("Wpisz kod kreskowy:");
-        int barcode = Integer.parseInt(scanner.nextLine());
+        long barcode = Long.parseLong(scanner.nextLine());
         System.out.println("Wpisz kategorię:");
         String category = scanner.nextLine();
 
