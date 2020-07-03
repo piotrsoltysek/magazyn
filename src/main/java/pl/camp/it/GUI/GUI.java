@@ -15,13 +15,15 @@ public class GUI {
     }
 
     public static void showMainMenu() {
+        System.out.println("------------------------");
         System.out.println("1. Dostępne produkty");
-        System.out.println("2. Dodaj produkt");
-        System.out.println("3. Exit");
-        System.out.println("4. Dostępne katerogie");
+        System.out.println("2. Dostępne produkty z danej kategorii");
+        System.out.println("3. Dostępne kategorie");
+        System.out.println("4. Dodaj produkt");
         System.out.println("5. Dodaj kategorię");
-        System.out.println("6. Dostępne produkty z danej kategorii");
-        System.out.println("7. Usuń kategorię");
+        System.out.println("6. Usuń kategorię");
+        System.out.println("7. Exit");
+        System.out.print("Podaj cyfrę:");
 
         String choose = scanner.nextLine();
 
@@ -30,23 +32,23 @@ public class GUI {
                 showProducts();
                 break;
             case "2":
-                addProduct();
+                showProductsByCategory();
                 break;
             case "3":
-                SQLDb.closeConnection();
-                System.exit(0);
-            case "4":
                 showCategories();
+                break;
+            case "4":
+                addProduct();
                 break;
             case "5":
                 addCategory();
                 break;
             case "6":
-                showProductsByCategory();
-                break;
-            case "7":
                 deleteCategory();
                 break;
+            case "7":
+                SQLDb.closeConnection();
+                System.exit(0);
             default:
                 System.out.println("Nieprawidłowy wybór !!");
                 showMainMenu();
@@ -79,6 +81,7 @@ public class GUI {
         String category = scanner.nextLine();
 
         SQLDb.saveProduct(name, amount, barcode, category);
+        System.out.println("Dodano nowy produkt");
         showMainMenu();
     }
 
@@ -86,6 +89,7 @@ public class GUI {
         System.out.println("Wpisz nazwę kategorii:");
         String newCategory = scanner.nextLine();
         SQLDb.saveCategory(newCategory);
+        System.out.println("Dodano nową kategorię");
         showMainMenu();
     }
 
@@ -108,6 +112,7 @@ public class GUI {
         }
         SQLDb.updateProduct(category);
         SQLDb.updateCategory(category);
+        System.out.println("Kategoria została usunięta");
         showMainMenu();
     }
 }

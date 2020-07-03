@@ -1,7 +1,6 @@
 package pl.camp.it.db;
 
 import pl.camp.it.model.ProductCategory;
-
 import java.util.List;
 
 public class ProductCategoryRepository {
@@ -16,5 +15,4 @@ public class ProductCategoryRepository {
         categories = SQLDb.getAllCategories();
         return productCategoryRepository;
     }
-
 }

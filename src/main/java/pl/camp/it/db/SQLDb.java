@@ -2,14 +2,12 @@ package pl.camp.it.db;
 
 import pl.camp.it.model.Product;
 import pl.camp.it.model.ProductCategory;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SQLDb {
     public static final Connection connection = connect();
-
 
     private static Connection connect() {
         try {
@@ -28,11 +26,8 @@ public class SQLDb {
         return null;
     }
 
-
-
     public static void saveProduct(String name, int amount, int barcode, String category) {
         try {
-
             String sql = "INSERT INTO tproduct (name, amount, barcode, category) VALUES (?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -48,9 +43,9 @@ public class SQLDb {
         }
     }
 
-
     public static List<Product> getAllProducts() {
         List<Product> resultList = new ArrayList<>();
+
         try {
             Statement statement = connection.createStatement();
 
@@ -65,16 +60,15 @@ public class SQLDb {
 
                 resultList.add(new Product(id, name, amount, barcode, category));
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return resultList;
     }
 
-
     public static List<ProductCategory> getAllCategories() {
         List<ProductCategory> resultList = new ArrayList<>();
+
         try {
             Statement statement = connection.createStatement();
 
@@ -87,18 +81,14 @@ public class SQLDb {
 
                 resultList.add(new ProductCategory(id, name, deleted));
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return resultList;
     }
 
-
-
     public static void saveCategory(String name) {
         try {
-
             String sql = "INSERT INTO tcategory (name, deleted) VALUES (?, ?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -106,9 +96,7 @@ public class SQLDb {
             preparedStatement.setString(1, name);
             preparedStatement.setBoolean(2, false);
 
-
             preparedStatement.executeUpdate();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -125,7 +113,6 @@ public class SQLDb {
     public static List<Product> getAllProductsByCategory(String whichCategory) {
         List<Product> resultList = new ArrayList<>();
         try {
-
             Statement statement = connection.createStatement();
 
             ResultSet wyniki = statement.executeQuery("SELECT * FROM tproduct WHERE category = '" + whichCategory + "'");
@@ -139,7 +126,6 @@ public class SQLDb {
 
                 resultList.add(new Product(id, name, amount, barcode, category));
             }
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -167,13 +153,4 @@ public class SQLDb {
             throwables.printStackTrace();
         }
     }
-
-
-
-
-
-
 }
-
-
-

@@ -1,0 +1,7 @@
+pl\camp\it\db\ProductRepository.class
+pl\camp\it\App.class
+pl\camp\it\GUI\GUI.class
+pl\camp\it\model\Product.class
+pl\camp\it\db\ProductCategoryRepository.class
+pl\camp\it\db\SQLDb.class
+pl\camp\it\model\ProductCategory.class

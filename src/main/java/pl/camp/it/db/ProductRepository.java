@@ -7,7 +7,6 @@ public class ProductRepository {
     private static List<Product> products;
     private static final ProductRepository productRepository = new ProductRepository();
 
-
     public List<Product> getProducts() {
         return this.products;
     }
@@ -22,12 +21,4 @@ public class ProductRepository {
         products = SQLDb.getAllProductsByCategory(whatCategory);
         return productRepository;
     }
-
-
-
-
-
-
-
-
 }

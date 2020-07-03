@@ -11,8 +11,6 @@ public class ProductCategory {
         this.deleted = deleted;
     }
 
-
-
     public int getId() {
         return id;
     }
