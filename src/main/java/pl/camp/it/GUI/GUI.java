@@ -5,8 +5,6 @@ import pl.camp.it.db.SQLDb;
 import pl.camp.it.db.ProductRepository;
 import pl.camp.it.model.Product;
 import pl.camp.it.model.ProductCategory;
-
-import java.util.List;
 import java.util.Scanner;
 
 public class GUI {
@@ -23,6 +21,7 @@ public class GUI {
         System.out.println("4. Dostępne katerogie");
         System.out.println("5. Dodaj kategorię");
         System.out.println("6. Dostępne produkty z danej kategorii");
+        System.out.println("7. Usuń kategorię");
 
         String choose = scanner.nextLine();
 
@@ -44,6 +43,9 @@ public class GUI {
                 break;
             case "6":
                 showProductsByCategory();
+                break;
+            case "7":
+                deleteCategory();
                 break;
             default:
                 System.out.println("Nieprawidłowy wybór !!");
@@ -90,9 +92,22 @@ public class GUI {
     private static void showProductsByCategory() {
         System.out.println("Wpisz kategorię:");
         String category = scanner.nextLine();
-        List<Product> productListByCategory = SQLDb.getAllProductsByCategory(category);
-        System.out.println(productListByCategory);
 
+        for (Product tempProduct : ProductRepository.getProductRepositoryByCategory(category).getProducts()) {
+            System.out.println(tempProduct);
+        }
+        showMainMenu();
+    }
+
+    private static void deleteCategory() {
+        System.out.println("Wpisz kategorię:");
+        String category = scanner.nextLine();
+        if (category.equals("Brak kategorii")) {
+            System.out.println("Nie można usunąć tej kategorii");
+            deleteCategory();
+        }
+        SQLDb.updateProduct(category);
+        SQLDb.updateCategory(category);
         showMainMenu();
     }
 }

@@ -18,6 +18,12 @@ public class ProductRepository {
     }
 
 
+    public static ProductRepository getProductRepositoryByCategory(String whatCategory) {
+        products = SQLDb.getAllProductsByCategory(whatCategory);
+        return productRepository;
+    }
+
+
 
 
 

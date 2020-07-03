@@ -78,7 +78,7 @@ public class SQLDb {
         try {
             Statement statement = connection.createStatement();
 
-            ResultSet wyniki = statement.executeQuery("SELECT * FROM tcategory");
+            ResultSet wyniki = statement.executeQuery("SELECT * FROM tcategory WHERE deleted = false;");
 
             while (wyniki.next()) {
                 Integer id = wyniki.getInt("id");
@@ -146,4 +146,34 @@ public class SQLDb {
         return resultList;
     }
 
+    public static void updateCategory(String name) {
+
+        try {
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate("UPDATE tcategory SET deleted = true WHERE name = '" + name + "'");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public static void updateProduct(String name) {
+
+        try {
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate("UPDATE tproduct SET category = 'Brak kategorii' WHERE category = '" + name + "'");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+
+
+
+
+
 }
+
+
+
