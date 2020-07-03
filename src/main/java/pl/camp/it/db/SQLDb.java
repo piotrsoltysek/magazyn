@@ -27,6 +27,7 @@ public class SQLDb {
     }
 
     public static void saveProduct(String name, int amount, long barcode, String category) {
+        //jako argumenty pola klasy zamiast nowego obiektu bo nie wiem jakie id ustawiać
         try {
             String sql = "INSERT INTO tproduct (name, amount, barcode, category) VALUES (?, ?, ?, ?)";
 
@@ -143,6 +144,7 @@ public class SQLDb {
         }
     }
 
+
     public static void updateProduct(String name) {
 
         try {
@@ -153,4 +155,7 @@ public class SQLDb {
             throwables.printStackTrace();
         }
     }
+
+
 }
+

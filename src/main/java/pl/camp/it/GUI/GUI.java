@@ -115,4 +115,8 @@ public class GUI {
         System.out.println("Kategoria została usunięta");
         showMainMenu();
     }
+
+
+
+
 }
