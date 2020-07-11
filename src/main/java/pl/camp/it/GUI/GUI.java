@@ -80,9 +80,14 @@ public class GUI {
         System.out.println("Wpisz kategorię:");
         String category = scanner.nextLine();
 
-        SQLDb.saveProduct(name, amount, barcode, category);
-        System.out.println("Dodano nowy produkt");
-        showMainMenu();
+        if (SQLDb.productCategoryExist(category)) {
+            SQLDb.saveProduct(name, amount, barcode, category);
+            System.out.println("Dodano nowy produkt");
+            showMainMenu();
+        } else {
+            System.out.println("Brak podanej kategorii, spróbuj ponownie");
+            addProduct();
+        }
     }
 
     private static void addCategory() {
@@ -96,11 +101,15 @@ public class GUI {
     private static void showProductsByCategory() {
         System.out.println("Wpisz kategorię:");
         String category = scanner.nextLine();
-
-        for (Product tempProduct : ProductRepository.getProductRepositoryByCategory(category).getProducts()) {
-            System.out.println(tempProduct);
+        if (SQLDb.productCategoryExist(category)) {
+            for (Product tempProduct : ProductRepository.getProductRepositoryByCategory(category).getProducts()) {
+                System.out.println(tempProduct);
+            }
+            showMainMenu();
+        } else {
+            System.out.println("Brak podanej kategorii");
+            showProductsByCategory();
         }
-        showMainMenu();
     }
 
     private static void deleteCategory() {
@@ -110,13 +119,15 @@ public class GUI {
             System.out.println("Nie można usunąć tej kategorii");
             deleteCategory();
         }
-        SQLDb.updateProductWithDeletedProductCategory(category);
-        SQLDb.deleteCategory(category);
-        System.out.println("Kategoria została usunięta");
-        showMainMenu();
+
+        if (SQLDb.productCategoryExist(category)) {
+            SQLDb.updateProductWithDeletedProductCategory(category);
+            SQLDb.deleteCategory(category);
+            System.out.println("Kategoria została usunięta");
+            showMainMenu();
+        } else {
+            System.out.println("Nie ma takiej kategorii, spróbuj ponownie");
+            deleteCategory();
+        }
     }
-
-
-
-
 }

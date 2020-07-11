@@ -28,26 +28,30 @@ public class SQLDb {
 
     public static void saveProduct(String name, int amount, long barcode, String category) {
 
-        ProductCategory tempProductCategory = new ProductCategory();
+        ProductCategory tempProductCategory = null;
 
         for (ProductCategory productCategory : getAllCategories()) {
             if (productCategory.getName().equals(category)) {
                 tempProductCategory = productCategory;
             }
         }
-        try {
-            String sql = "INSERT INTO tproduct (name, amount, barcode, categoryId) VALUES (?, ?, ?, ?)";
 
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        if (tempProductCategory != null) {
+            try {
+                String sql = "INSERT INTO tproduct (name, amount, barcode, categoryId) VALUES (?, ?, ?, ?)";
 
-            preparedStatement.setString(1, name);
-            preparedStatement.setInt(2, amount);
-            preparedStatement.setLong(3, barcode);
-            preparedStatement.setInt(4, tempProductCategory.getId());
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, name);
+                preparedStatement.setInt(2, amount);
+                preparedStatement.setLong(3, barcode);
+                preparedStatement.setInt(4, tempProductCategory.getId());
 
-            preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+                preparedStatement.executeUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        } else {
+            System.out.println("Nie ma takiej kategorii");
         }
     }
 
@@ -60,14 +64,11 @@ public class SQLDb {
             ResultSet wyniki = statement.executeQuery("SELECT * FROM tproduct");
 
             while (wyniki.next()) {
-                Integer id = wyniki.getInt("id");
+                int id = wyniki.getInt("id");
                 String name = wyniki.getString("name");
-                Integer amount = wyniki.getInt("amount");
-                Long barcode = wyniki.getLong("barcode");
-                Integer categoryId = wyniki.getInt("categoryId");
-                // TODO: 11.07.2020 wrzucić metodę getProductCategoryByName
-
-
+                int amount = wyniki.getInt("amount");
+                long barcode = wyniki.getLong("barcode");
+                int categoryId = wyniki.getInt("categoryId");
 
                 resultList.add(new Product(id, name, amount, barcode, getProductCategoryById(categoryId)));
             }
@@ -86,9 +87,9 @@ public class SQLDb {
             ResultSet wyniki = statement.executeQuery("SELECT * FROM tcategory WHERE deleted = false;");
 
             while (wyniki.next()) {
-                Integer id = wyniki.getInt("id");
+                int id = wyniki.getInt("id");
                 String name = wyniki.getString("name");
-                Boolean deleted = wyniki.getBoolean("deleted");
+                boolean deleted = wyniki.getBoolean("deleted");
 
                 resultList.add(new ProductCategory(id, name, deleted));
             }
@@ -99,48 +100,32 @@ public class SQLDb {
     }
 
     public static ProductCategory getProductCategoryById(int id) {
-        // TODO: 11.07.2020
-        ProductCategory tempProductCategory = new ProductCategory();
+        ProductCategory tempProductCategory = null;
 
         for (ProductCategory productCategory : getAllCategories()) {
             if (productCategory.getId() == id) {
                 tempProductCategory = productCategory;
-                return tempProductCategory;
             }
-
-
         }
-        return null;
+        return tempProductCategory;
     }
-
-    public static Product getProductById(int id) {
-            Product tempProduct = new Product();
-
-            for (Product product : getAllProducts()) {
-                if (product.getId() == id) {
-                    tempProduct = product;
-                    return tempProduct;
-
-                }
-            }
-            return null;
-    }
-
-
 
     public static ProductCategory getProductCategoryByName(String name) {
-        ProductCategory tempProductCategory = new ProductCategory();
+        ProductCategory tempProductCategory = null;
 
         for (ProductCategory productCategory : getAllCategories()) {
             if (productCategory.getName().equals(name)) {
                 tempProductCategory = productCategory;
-                return tempProductCategory;
             }
         }
-        return null;
+
+        if (tempProductCategory != null) {
+            return tempProductCategory;
+        } else {
+            System.out.println("Brak podanej kategorii");
+            return null;
+        }
     }
-
-
 
         public static void saveCategory(String name) {
         try {
@@ -165,10 +150,9 @@ public class SQLDb {
         }
     }
 
-    public static List<Product> getAllProductsByCategory(String whichCategory) {
+    public static List<Product> getAllProductsByCategory(String category) {
 
-        ProductCategory productCategory = new ProductCategory();
-        productCategory = getProductCategoryByName(whichCategory);
+        ProductCategory productCategory = getProductCategoryByName(category);
 
         List<Product> resultList = new ArrayList<>();
         try {
@@ -177,15 +161,13 @@ public class SQLDb {
             ResultSet wyniki = statement.executeQuery("SELECT * FROM tproduct WHERE categoryId = '" + productCategory.getId() + "'");
 
             while (wyniki.next()) {
-                Integer id = wyniki.getInt("id");
+                int id = wyniki.getInt("id");
                 String name = wyniki.getString("name");
-                Integer amount = wyniki.getInt("amount");
-                Long barcode = wyniki.getLong("barcode");
-                Integer category = wyniki.getInt("categoryId");
+                int amount = wyniki.getInt("amount");
+                long barcode = wyniki.getLong("barcode");
+                int category2 = wyniki.getInt("categoryId");
 
-
-
-                resultList.add(new Product(id, name, amount, barcode, getProductCategoryById(category)));
+                resultList.add(new Product(id, name, amount, barcode, getProductCategoryById(category2)));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -193,7 +175,7 @@ public class SQLDb {
         return resultList;
     }
 
-    public static void deleteCategory(String name) {//nie trzeba obsługiwać błędów, bo jak ktoś wpisze kategorię której nie ma, to i tak nie ma czego usuwać.
+    public static void deleteCategory(String name) {
 
         try {
             Statement statement = connection.createStatement();
@@ -206,15 +188,22 @@ public class SQLDb {
 
 
     public static void updateProductWithDeletedProductCategory(String name) {
-        // TODO: 11.07.2020 zmienić, że usuwamy po id categorii
         ProductCategory productCategory = getProductCategoryByName(name);
 
         try {
             Statement statement = connection.createStatement();
-
             statement.executeUpdate("UPDATE tproduct SET categoryId = 1 WHERE categoryId = '" + productCategory.getId() + "'");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static boolean productCategoryExist(String category) {
+        for (ProductCategory productCategory : getAllCategories()) {
+            if (productCategory.getName().equals(category)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
