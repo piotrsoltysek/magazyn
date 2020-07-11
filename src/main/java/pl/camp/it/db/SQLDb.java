@@ -27,6 +27,7 @@ public class SQLDb {
     }
 
     public static void saveProduct(String name, int amount, long barcode, String category) {
+        // TODO: 11.07.2020 musimy wyciągnąć z bazy obiekt klasy ProductCategory
         //jako argumenty pola klasy zamiast nowego obiektu bo nie wiem jakie id ustawiać
         try {
             String sql = "INSERT INTO tproduct (name, amount, barcode, category) VALUES (?, ?, ?, ?)";
@@ -58,6 +59,7 @@ public class SQLDb {
                 Integer amount = wyniki.getInt("amount");
                 Long barcode = wyniki.getLong("barcode");
                 String category = wyniki.getString("category");
+                // TODO: 11.07.2020 wrzucić metodę getProductCategoryByName
 
                 resultList.add(new Product(id, name, amount, barcode, category));
             }
@@ -88,7 +90,18 @@ public class SQLDb {
         return resultList;
     }
 
-    public static void saveCategory(String name) {
+    public static ProductCategory getCategoryById(int id) {
+        // TODO: 11.07.2020
+
+    }
+
+    public static Product getProductById(int id) {
+        // TODO: 11.07.2020
+
+    }
+
+
+        public static void saveCategory(String name) {
         try {
             String sql = "INSERT INTO tcategory (name, deleted) VALUES (?, ?)";
 
@@ -133,7 +146,7 @@ public class SQLDb {
         return resultList;
     }
 
-    public static void updateCategory(String name) {
+    public static void updateCategory(String name) {//nie trzeba obsługiwać błędów, bo jak ktoś wpisze kategorię której nie ma, to i tak nie ma czego usuwać.
 
         try {
             Statement statement = connection.createStatement();
@@ -146,6 +159,7 @@ public class SQLDb {
 
 
     public static void updateProduct(String name) {
+        // TODO: 11.07.2020 zmienić, że usuwamy po id categorii
 
         try {
             Statement statement = connection.createStatement();
@@ -155,7 +169,4 @@ public class SQLDb {
             throwables.printStackTrace();
         }
     }
-
-
 }
-
