@@ -110,8 +110,8 @@ public class GUI {
             System.out.println("Nie można usunąć tej kategorii");
             deleteCategory();
         }
-        SQLDb.updateProduct(category);
-        SQLDb.updateCategory(category);
+        SQLDb.updateProductWithDeletedProductCategory(category);
+        SQLDb.deleteCategory(category);
         System.out.println("Kategoria została usunięta");
         showMainMenu();
     }

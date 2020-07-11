@@ -11,6 +11,9 @@ public class ProductCategory {
         this.deleted = deleted;
     }
 
+    public ProductCategory() {
+    }
+
     public int getId() {
         return id;
     }

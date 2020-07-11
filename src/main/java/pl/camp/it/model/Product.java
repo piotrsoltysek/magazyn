@@ -5,7 +5,7 @@ public class Product {
     private String name;
     private int amount;
     private long barcode;
-    private ProductCategory category;// TODO: 11.07.2020 zmienić pole klasy z String na obiekt klasy ProductCategory
+    private ProductCategory category;
 
     public Product(int id, String name, int amount, long barcode, ProductCategory category) {
         this.id = id;
@@ -13,6 +13,9 @@ public class Product {
         this.amount = amount;
         this.barcode = barcode;
         this.category = category;
+    }
+
+    public Product() {
     }
 
     public int getId() {
@@ -62,7 +65,7 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", amount=" + amount +
                 ", barcode=" + barcode +
-                ", category='" + category + '\'' +
+                ", category='" + category.getName() + '\'' +
                 '}';
     }
 }
